@@ -1,5 +1,5 @@
 <script>
-
+  export let onPress;
 </script>
 
 <style>
@@ -37,6 +37,6 @@
   }
 </style>
 
-<div class="shadow selectNone" on:click={() => console.log('foi')}>
+<div class="shadow selectNone" on:click={onPress}>
   <span>gerar nova frase</span>
 </div>

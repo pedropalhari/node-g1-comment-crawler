@@ -1,5 +1,6 @@
 <script>
-
+  export let quoteName;
+  export let quoteText;
 </script>
 
 <style>
@@ -55,11 +56,10 @@
     <div class="imageContainer fade">
       <div class="quoteContainer">
         <span>
-          dedo no cu e gritaria dasjdksajdoisa saidjhoisa jdisa joid saoid saoi
-          jdoisa jdoisadoias oidsa
+          {quoteText}
         </span>
         <br />
-        <span class="quoteName">- dalai lama</span>
+        <span class="quoteName">- {quoteName}</span>
       </div>
     </div>
   </div>

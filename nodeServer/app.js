@@ -6,9 +6,11 @@
 
 const puppeteer = require("puppeteer");
 
+let workspaceEnv;
+
 (async () => {
   const browser = await puppeteer.launch({
-    //headless: false
+    headless: false
   });
 
   const page = await browser.newPage();
@@ -86,7 +88,9 @@ const puppeteer = require("puppeteer");
     (a, b) => parseInt(b.thumbsDown) - parseInt(a.thumbsDown)
   );
 
-  console.log(indexNameDescMap[Math.floor(Math.random() * 10)]);
+  workspaceEnv = indexNameDescMap;
+
+  //console.log(indexNameDescMap[Math.floor(Math.random() * 10)]);
 
   // let a = await elements[0].getProperty("innerHTML");
   // let a2 = await a.jsonValue();
@@ -113,3 +117,18 @@ async function scrollAndWait(page, time) {
     resolve(elements);
   });
 }
+
+//NODE EXPRESS
+
+var express = require("express");
+var cors = require('cors')
+var app = express();
+app.use(cors());
+
+app.get("/", function(req, res) {
+  res.json(workspaceEnv);
+});
+
+app.listen(3000, function() {
+  console.log("Example app listening on port 3000!");
+});

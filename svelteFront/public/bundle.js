@@ -50,6 +50,11 @@ var app = (function () {
     function children(element) {
         return Array.from(element.childNodes);
     }
+    function set_data(text, data) {
+        data = '' + data;
+        if (text.data !== data)
+            text.data = data;
+    }
 
     let current_component;
     function set_current_component(component) {
@@ -236,7 +241,7 @@ var app = (function () {
     const file = "src/Quote.svelte";
 
     function create_fragment(ctx) {
-    	var div3, div2, div1, div0, span0, t1, br, t2, span1;
+    	var div3, div2, div1, div0, span0, t0, t1, br, t2, span1, t3, t4;
 
     	return {
     		c: function create() {
@@ -245,25 +250,26 @@ var app = (function () {
     			div1 = element("div");
     			div0 = element("div");
     			span0 = element("span");
-    			span0.textContent = "dedo no cu e gritaria dasjdksajdoisa saidjhoisa jdisa joid saoid saoi\n          jdoisa jdoisadoias oidsa";
+    			t0 = text(ctx.quoteText);
     			t1 = space();
     			br = element("br");
     			t2 = space();
     			span1 = element("span");
-    			span1.textContent = "- dalai lama";
+    			t3 = text("- ");
+    			t4 = text(ctx.quoteName);
     			span0.className = "svelte-7x1ctr";
-    			add_location(span0, file, 56, 8, 908);
-    			add_location(br, file, 60, 8, 1054);
+    			add_location(span0, file, 57, 8, 955);
+    			add_location(br, file, 60, 8, 1008);
     			span1.className = "quoteName svelte-7x1ctr";
-    			add_location(span1, file, 61, 8, 1069);
+    			add_location(span1, file, 61, 8, 1023);
     			div0.className = "quoteContainer svelte-7x1ctr";
-    			add_location(div0, file, 55, 6, 871);
+    			add_location(div0, file, 56, 6, 918);
     			div1.className = "imageContainer fade svelte-7x1ctr";
-    			add_location(div1, file, 54, 4, 831);
+    			add_location(div1, file, 55, 4, 878);
     			div2.className = "imageContainer image shadow svelte-7x1ctr";
-    			add_location(div2, file, 53, 2, 785);
+    			add_location(div2, file, 54, 2, 832);
     			div3.className = "container svelte-7x1ctr";
-    			add_location(div3, file, 51, 0, 758);
+    			add_location(div3, file, 52, 0, 805);
     		},
 
     		l: function claim(nodes) {
@@ -276,13 +282,25 @@ var app = (function () {
     			append(div2, div1);
     			append(div1, div0);
     			append(div0, span0);
+    			append(span0, t0);
     			append(div0, t1);
     			append(div0, br);
     			append(div0, t2);
     			append(div0, span1);
+    			append(span1, t3);
+    			append(span1, t4);
     		},
 
-    		p: noop,
+    		p: function update(changed, ctx) {
+    			if (changed.quoteText) {
+    				set_data(t0, ctx.quoteText);
+    			}
+
+    			if (changed.quoteName) {
+    				set_data(t4, ctx.quoteName);
+    			}
+    		},
+
     		i: noop,
     		o: noop,
 
@@ -294,10 +312,51 @@ var app = (function () {
     	};
     }
 
+    function instance($$self, $$props, $$invalidate) {
+    	let { quoteName, quoteText } = $$props;
+
+    	const writable_props = ['quoteName', 'quoteText'];
+    	Object.keys($$props).forEach(key => {
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<Quote> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$set = $$props => {
+    		if ('quoteName' in $$props) $$invalidate('quoteName', quoteName = $$props.quoteName);
+    		if ('quoteText' in $$props) $$invalidate('quoteText', quoteText = $$props.quoteText);
+    	};
+
+    	return { quoteName, quoteText };
+    }
+
     class Quote extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, null, create_fragment, safe_not_equal, []);
+    		init(this, options, instance, create_fragment, safe_not_equal, ["quoteName", "quoteText"]);
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+    		if (ctx.quoteName === undefined && !('quoteName' in props)) {
+    			console.warn("<Quote> was created without expected prop 'quoteName'");
+    		}
+    		if (ctx.quoteText === undefined && !('quoteText' in props)) {
+    			console.warn("<Quote> was created without expected prop 'quoteText'");
+    		}
+    	}
+
+    	get quoteName() {
+    		throw new Error("<Quote>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set quoteName(value) {
+    		throw new Error("<Quote>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get quoteText() {
+    		throw new Error("<Quote>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set quoteText(value) {
+    		throw new Error("<Quote>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -314,10 +373,10 @@ var app = (function () {
     			span = element("span");
     			span.textContent = "gerar nova frase";
     			span.className = "svelte-qqtl5d";
-    			add_location(span, file$1, 40, 2, 646);
+    			add_location(span, file$1, 40, 2, 650);
     			div.className = "shadow selectNone svelte-qqtl5d";
-    			add_location(div, file$1, 39, 0, 576);
-    			dispose = listen(div, "click", click_handler);
+    			add_location(div, file$1, 39, 0, 597);
+    			dispose = listen(div, "click", ctx.onPress);
     		},
 
     		l: function claim(nodes) {
@@ -343,14 +402,39 @@ var app = (function () {
     	};
     }
 
-    function click_handler() {
-    	return console.log('foi');
+    function instance$1($$self, $$props, $$invalidate) {
+    	let { onPress } = $$props;
+
+    	const writable_props = ['onPress'];
+    	Object.keys($$props).forEach(key => {
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<Button> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$set = $$props => {
+    		if ('onPress' in $$props) $$invalidate('onPress', onPress = $$props.onPress);
+    	};
+
+    	return { onPress };
     }
 
     class Button extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, null, create_fragment$1, safe_not_equal, []);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["onPress"]);
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+    		if (ctx.onPress === undefined && !('onPress' in props)) {
+    			console.warn("<Button> was created without expected prop 'onPress'");
+    		}
+    	}
+
+    	get onPress() {
+    		throw new Error("<Button>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set onPress(value) {
+    		throw new Error("<Button>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -361,18 +445,27 @@ var app = (function () {
     function create_fragment$2(ctx) {
     	var div, t, current;
 
-    	var quote = new Quote({ $$inline: true });
+    	var quote_1 = new Quote({
+    		props: {
+    		quoteName: ctx.quote.name || 'dalai lama',
+    		quoteText: ctx.quote.comment || 'dedo no cu e gritaria'
+    	},
+    		$$inline: true
+    	});
 
-    	var button = new Button({ $$inline: true });
+    	var button = new Button({
+    		props: { onPress: func },
+    		$$inline: true
+    	});
 
     	return {
     		c: function create() {
     			div = element("div");
-    			quote.$$.fragment.c();
+    			quote_1.$$.fragment.c();
     			t = space();
     			button.$$.fragment.c();
     			div.className = "bodyDiv svelte-1ibsbo4";
-    			add_location(div, file$2, 17, 0, 302);
+    			add_location(div, file$2, 33, 0, 641);
     		},
 
     		l: function claim(nodes) {
@@ -381,17 +474,22 @@ var app = (function () {
 
     		m: function mount(target, anchor) {
     			insert(target, div, anchor);
-    			mount_component(quote, div, null);
+    			mount_component(quote_1, div, null);
     			append(div, t);
     			mount_component(button, div, null);
     			current = true;
     		},
 
-    		p: noop,
+    		p: function update(changed, ctx) {
+    			var quote_1_changes = {};
+    			if (changed.quote) quote_1_changes.quoteName = ctx.quote.name || 'dalai lama';
+    			if (changed.quote) quote_1_changes.quoteText = ctx.quote.comment || 'dedo no cu e gritaria';
+    			quote_1.$set(quote_1_changes);
+    		},
 
     		i: function intro(local) {
     			if (current) return;
-    			quote.$$.fragment.i(local);
+    			quote_1.$$.fragment.i(local);
 
     			button.$$.fragment.i(local);
 
@@ -399,7 +497,7 @@ var app = (function () {
     		},
 
     		o: function outro(local) {
-    			quote.$$.fragment.o(local);
+    			quote_1.$$.fragment.o(local);
     			button.$$.fragment.o(local);
     			current = false;
     		},
@@ -409,17 +507,35 @@ var app = (function () {
     				detach(div);
     			}
 
-    			quote.$destroy();
+    			quote_1.$destroy();
 
     			button.$destroy();
     		}
     	};
     }
 
+    function func() {
+    	return console.log('hdiusahdsa');
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+
+      let quote = [];
+      async function getTextFromLocal() {
+        let res = await fetch("http://localhost:3000");
+
+        let resObject = await res.json();
+      }
+
+      getTextFromLocal();
+
+    	return { quote };
+    }
+
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, null, create_fragment$2, safe_not_equal, []);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, []);
     	}
     }
 
