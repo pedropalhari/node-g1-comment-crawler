@@ -3,6 +3,7 @@
 //"https://g1.globo.com/rj/rio-de-janeiro/noticia/2019/05/26/manifestantes-fazem-ato-no-rio-pelo-fim-das-politicas-de-intervencao-e-ocupacao-policial-em-areas-residenciais.ghtml"
 //"https://g1.globo.com/rj/rio-de-janeiro/noticia/2019/05/26/manifestantes-fazem-ato-pro-bolsonaro-em-copacabana.ghtml"
 //"https://g1.globo.com/mundo/noticia/2019/05/27/a-visita-de-trump-a-um-ringue-de-sumo-no-japao-tarde-incrivel.ghtml"
+//https://g1.globo.com/ciencia-e-saude/noticia/2019/05/27/oms-define-sindrome-de-burnout-como-estresse-cronico-e-a-inclui-na-lista-oficial-de-doencas.ghtml
 
 const puppeteer = require("puppeteer");
 
