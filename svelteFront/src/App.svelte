@@ -35,5 +35,5 @@
   <Quote
     quoteName={quote.name || 'dalai lama'}
     quoteText={quote.comment || 'dedo no cu e gritaria'} />
-  <Button onPress={() => console.log('hdiusahdsa')} />
+  <Button onPress={() => randomizeQuote()} />
 </div>

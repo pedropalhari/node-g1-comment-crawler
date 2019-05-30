@@ -454,7 +454,7 @@ var app = (function () {
     	});
 
     	var button = new Button({
-    		props: { onPress: func },
+    		props: { onPress: ctx.func },
     		$$inline: true
     	});
 
@@ -514,22 +514,30 @@ var app = (function () {
     	};
     }
 
-    function func() {
-    	return console.log('hdiusahdsa');
-    }
-
     function instance$2($$self, $$props, $$invalidate) {
+    	
+      let quoteArray = [];
 
       let quote = [];
       async function getTextFromLocal() {
         let res = await fetch("http://localhost:3000");
 
         let resObject = await res.json();
+
+        quoteArray = resObject;
+      }
+
+      async function randomizeQuote() {
+        $$invalidate('quote', quote = quoteArray[Math.floor(Math.random() * quoteArray.length)]);
       }
 
       getTextFromLocal();
 
-    	return { quote };
+    	function func() {
+    		return randomizeQuote();
+    	}
+
+    	return { quote, randomizeQuote, func };
     }
 
     class App extends SvelteComponentDev {
